@@ -7,10 +7,17 @@ import com.softwarepassion.woodstoxex.to.Track;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
+import org.ektorp.CouchDbConnector;
+import org.ektorp.CouchDbInstance;
+import org.ektorp.http.HttpClient;
+import org.ektorp.http.StdHttpClient;
+import org.ektorp.impl.StdCouchDbConnector;
+import org.ektorp.impl.StdCouchDbInstance;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.XMLEvent;
 import java.io.FileInputStream;
+import java.net.MalformedURLException;
 import java.util.logging.Logger;
 
 /**
@@ -33,6 +40,21 @@ public class WSXmlParser {
 
 	XMLInputFactory2 xmlif2 = null;
 	int count = 0;
+	CouchDbConnector db;
+	CouchDbInstance dbInstance;
+
+	public WSXmlParser(){
+		try {
+			HttpClient httpClient = new StdHttpClient.Builder()
+					.url("http://localhost:5984")
+					.build();
+			dbInstance = new StdCouchDbInstance(httpClient);
+			db = new StdCouchDbConnector("java_music", dbInstance);
+			db.createDatabaseIfNotExists();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public int parse(String fileName, XMLInputFactory2 factory2) {
 		xmlif2 = factory2;
@@ -106,6 +128,7 @@ public class WSXmlParser {
 	}
 
 	private void processArtist(Artist artist) {
+		db.create(artist);
 		count++;
 	}
 }

@@ -14,7 +14,7 @@ public class Main {
 		long start = System.currentTimeMillis();
 		WSXmlParser parser = new WSXmlParser();
 		String fileName = "/Users/kris/Downloads/dbdump_artistalbumtrack.0.290905586176.xml";
-		int result = parser.parse(fileName, WSXmlInputFactory.getInputFactoryConfiguredForXmlConformance());
+		int result = parser.parse(fileName, WSXmlInputFactory.getInputFactoryConfiguredForSpeed());
 		long end = System.currentTimeMillis();
 		System.out.println("Finished within: " + (end - start) + " processing: " + result + " results.");
 	}

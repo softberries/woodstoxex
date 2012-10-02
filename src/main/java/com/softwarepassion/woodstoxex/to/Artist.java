@@ -1,5 +1,7 @@
 package com.softwarepassion.woodstoxex.to;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,13 @@ import java.util.List;
  * Time: 14:48
  */
 public class Artist implements Serializable {
+
+	//couchdb specific
+	@JsonProperty("_id")
+	private String _id;
+	@JsonProperty("_rev")
+	private String _rev;
+
 	private String id;
 	private String name;
 	private String url;
@@ -109,6 +118,22 @@ public class Artist implements Serializable {
 
 	public void setAlbums(List<Album> albums) {
 		this.albums = albums;
+	}
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
+	public String get_rev() {
+		return _rev;
+	}
+
+	public void set_rev(String _rev) {
+		this._rev = _rev;
 	}
 
 	@Override
